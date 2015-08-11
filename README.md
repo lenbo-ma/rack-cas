@@ -33,6 +33,12 @@ Add `gem 'rack-cas'` to your [`Gemfile`](http://gembundler.com/gemfile.html) and
 Once the necessary gems have been installed, in your `config/application.rb` add:
 ```ruby
 config.rack_cas.server_url = 'https://cas.example.com/'
+
+```
+Set `local_host` for request url resource 
+```ruby
+config.rack_cas.local_host = 'http://127.0.0.1:3000'
+
 ```
 If the the server URL depends on your environment, you can define it in the according file: `config/environments/<env>.rb`
 
