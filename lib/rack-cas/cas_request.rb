@@ -14,6 +14,8 @@ class CASRequest
   end
 
   def service_url
+    require 'pry'
+    binding.pry
     RackCAS::URL.parse(@request.domain).remove_param('ticket').to_s
   end
 
