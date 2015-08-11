@@ -14,9 +14,9 @@ class CASRequest
   end
 
   def service_url
-    require 'pry'
-    binding.pry
-    RackCAS::URL.parse(@request.domain).remove_param('ticket').to_s
+    req_url = RackCAS.config.local_host
+    req_url += @request.fullpath
+    RackCAS::URL.parse(req_url).remove_param('ticket').to_s
   end
 
   def logout?

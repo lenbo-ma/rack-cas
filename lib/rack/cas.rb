@@ -16,6 +16,9 @@ class Rack::CAS
     request = Rack::Request.new(env)
     cas_request = CASRequest.new(request)
 
+    req_url = RackCAS.config.local_host
+    req_url += request.fullpath
+
     if cas_request.path_matches? RackCAS.config.exclude_path || RackCAS.config.exclude_paths
       return @app.call(env)
     end
@@ -24,7 +27,7 @@ class Rack::CAS
       log env, 'rack-cas: Intercepting ticket validation request.'
 
       begin
-        user, extra_attrs = get_user(request.url, cas_request.ticket)
+        user, extra_attrs = get_user(req_url, cas_request.ticket)
       rescue RackCAS::ServiceValidationResponse::TicketInvalidError, RackCAS::SAMLValidationResponse::TicketInvalidError
         log env, 'rack-cas: Invalid ticket. Redirecting to CAS login.'
 
@@ -54,7 +57,7 @@ class Rack::CAS
     if response[0] == 401 # access denied
       log env, 'rack-cas: Intercepting 401 access denied response. Redirecting to CAS login.'
 
-      redirect_to server.login_url(request.url).to_s
+      redirect_to server.login_url(req_url).to_s
     else
       response
     end
