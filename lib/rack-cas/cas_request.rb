@@ -15,7 +15,8 @@ class CASRequest
 
   def service_url
     req_url = RackCAS.config.local_host
-    req_url += @request.fullpath
+    auto_prefix = RackCAS.config.auto_prefix || true
+    if auto_prefix then req_url += @request.fullpath end
     RackCAS::URL.parse(req_url).remove_param('ticket').to_s
   end
 
