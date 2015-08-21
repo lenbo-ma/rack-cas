@@ -17,8 +17,6 @@ class Rack::CAS
     cas_request = CASRequest.new(request)
 
     req_url = RackCAS.config.local_host
-    auto_prefix = RackCAS.config.auto_prefix || true
-    if auto_prefix then req_url += request.fullpath end
 
     if cas_request.path_matches? RackCAS.config.exclude_path || RackCAS.config.exclude_paths
       return @app.call(env)
